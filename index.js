@@ -2,15 +2,18 @@ var ClientRequest = require('./lib/request')
 var response = require('./lib/response')
 var extend = require('xtend')
 var statusCodes = require('builtin-status-codes')
-var url = require('url')
+var URL = self.URL
 
 var http = exports
 
 http.request = function (opts, cb) {
-	if (typeof opts === 'string')
-		opts = url.parse(opts)
-	else
+	if (typeof opts === 'string') {
+		opts = new URL(opts, self.location.protocol + '//' +self.location.host)
+		opts.path = opts.pathname + opts.search
+		opts.auth = (opts.username && opts.password) ? opts.username + ':' + password : null
+	} else {
 		opts = extend(opts)
+	}
 
 	// Normally, the page is loaded from http or https, so not specifying a protocol
 	// will result in a (valid) protocol-relative url. However, this won't work if
