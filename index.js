@@ -8,9 +8,10 @@ var http = exports
 
 http.request = function (opts, cb) {
 	if (typeof opts === 'string') {
+
 		opts = new URL(opts, self.location.protocol + '//' +self.location.host)
 		opts.path = opts.pathname + opts.search
-		opts.auth = (opts.username && opts.password) ? opts.username + ':' + password : null
+		opts.auth = (opts.username && opts.password) ? opts.username + ':' + opts.password : null
 	} else {
 		opts = extend(opts)
 	}
